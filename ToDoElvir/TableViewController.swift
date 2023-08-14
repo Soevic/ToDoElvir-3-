@@ -8,6 +8,19 @@
 import UIKit
 
 class TableViewController: UITableViewController {
+  
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // Uncomment the following line to preserve selection between presentations
+        // self.clearsSelectionOnViewWillAppear = false
+
+        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    }
+    
+    
     
     @IBAction func pushRemoveAction(_ sender: Any) {
      let alertController = UIAlertController(title: "Удалить запись", message: nil, preferredStyle: .alert)
@@ -19,19 +32,45 @@ class TableViewController: UITableViewController {
         }
         
         let alertAction2 = UIAlertAction(title: "Удалить", style: .cancel) { (alert) in
-            // Удалить новую запись, если такая существует
-            let deleteItem = alertController.textFields![0].text 
-            var index = 0
             
-//            for name in ToDoItems {
-//                if name == deleteItem  {
-                    removeItem(at: index)
-                    self.tableView.reloadData()
+            var deleteItem = alertController.textFields![0].text // это то что мы вставляем алерт контроллер на удаление, всегда индекс ноль у этого элемента
+            
+            // Удалить запись вариант 1 - работает, но удаляет только строго по заданному индексу
+            
+            if ToDoItems[0]["Name"] as? String == deleteItem {
+                removeItem(at: 0)
+                
+                // Удалить запись вариант 2 -  билдится, но в runtime выдает ошибку Index out of range
+                
+                if !ToDoItems.isEmpty {
+                    for index in ToDoItems.indices {
+                        if (ToDoItems[index]["Name"] as? String)  == deleteItem  {
+                            removeItem(at: index)
+                        }
+                        
+                    }
                 }
+                
+            }
             
-            //self.tableView.reloadData()
+            // Удалить запись вариант 3  - билдится, но в runtime выдает ошибку Index out of range
+            
+            if !ToDoItems.isEmpty {
+                for index in ToDoItems.indices {
+                    for (_, value) in ToDoItems[index] {
+                        if value as? String == deleteItem {
+                            
+                            removeItem(at: index)
+                        }
+                        
+                    }
+                }
+            }
+            
+            
+            self.tableView.reloadData()
         }
-        
+
         alertController.addAction(alertAction1)
         alertController.addAction(alertAction2)
         
@@ -62,15 +101,15 @@ class TableViewController: UITableViewController {
     }
     
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-    }
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//
+//        // Uncomment the following line to preserve selection between presentations
+//        // self.clearsSelectionOnViewWillAppear = false
+//
+//        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+//        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+//    }
 
     // MARK: - Table view data source
 

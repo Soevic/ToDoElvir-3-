@@ -40,7 +40,7 @@ class TableViewController: UITableViewController {
             if ToDoItems[0]["Name"] as? String == deleteItem {
                 removeItem(at: 0)
                 
-                // Удалить запись вариант 2 -  билдится, но в runtime выдает ошибку Index out of range
+                // Удалить запись вариант! 2 -  билдится, но в runtime выдает ошибку Index out of range
                 
                 if !ToDoItems.isEmpty {
                     for index in ToDoItems.indices {
